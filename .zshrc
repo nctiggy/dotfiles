@@ -83,7 +83,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias config='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
+alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
 #
 eval "$(rbenv init -)"
 source ~/.bin/tmuxinator.zsh
