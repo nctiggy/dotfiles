@@ -1,48 +1,57 @@
 ---
 - hosts: localhost
-  user: nctiggy
+  user: ubuntu
   tasks:
   - name: update homebrew
     homebrew:
       update_homebrew: yes
       upgrade_all: yes
+    when: ansible_os_family == "Darwin"
   - name: Tap casks
     homebrew_tap:
       name: caskroom/cask
+    when: ansible_os_family == "Darwin"
   - name: install keycastr
     homebrew_cask:
       name: keycastr
+    when: ansible_os_family == "Darwin"
   - name: Install core packages
     package: name={{item}} state=installed
     with_items:
       - git
       - vim
+      - zsh
       - jq
       - rbenv
-      - terraform
       - tmux
       - nmap
+    become: yes
   - name: Install OSX specific packages
     package: name={{item}} state=installed
     with_items:
       - macvim
       - cloudfoundry/tap/cf-cli
+      - terraform
     when: ansible_os_family == "Darwin"
   - name: Add Ubuntu keys
     apt_key:
       url: https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
       state: present
+      validate_certs: no
+    become: yes
     when: ansible_os_family == "Debian"
   - name: Add CF-CLI repo
     apt_repository:
       repo: deb http://packages.cloudfoundry.org/debian stable main
       state: present
       filename: 'cloudfoundry-cli'
+    become: yes
     when: ansible_os_family == "Debian"
   - name: Install Debian/Ubuntu specific packages
     package: name={{item}} state=installed
     with_items:
       - cf-cli
+    become: yes
     when: ansible_os_family == "Debian"
   - name: Install oh-my-zsh
     git:
