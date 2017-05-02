@@ -1,0 +1,59 @@
+---
+- hosts: localhost
+  user: nctiggy
+  tasks:
+  - name: update homebrew
+    homebrew:
+      update_homebrew: yes
+      upgrade_all: yes
+  - name: Tap casks
+    homebrew_tap:
+      name: caskroom/cask
+  - name: install keycastr
+    homebrew_cask:
+      name: keycastr
+  - name: Install core packages
+    package: name={{item}} state=installed
+    with_items:
+      - git
+      - vim
+      - jq
+      - rbenv
+      - terraform
+      - tmux
+      - nmap
+  - name: Install OSX specific packages
+    package: name={{item}} state=installed
+    with_items:
+      - macvim
+      - cloudfoundry/tap/cf-cli
+    when: ansible_os_family == "Darwin"
+  - name: Add Ubuntu keys
+    apt_key:
+      url: https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
+      state: present
+    when: ansible_os_family == "Debian"
+  - name: Add CF-CLI repo
+    apt_repository:
+      repo: deb http://packages.cloudfoundry.org/debian stable main
+      state: present
+      filename: 'cloudfoundry-cli'
+    when: ansible_os_family == "Debian"
+  - name: Install Debian/Ubuntu specific packages
+    package: name={{item}} state=installed
+    with_items:
+      - cf-cli
+    when: ansible_os_family == "Debian"
+  - name: Install oh-my-zsh
+    git:
+      repo: https://github.com/nctiggy/oh-my-zsh.git
+      dest: $HOME/.oh-my-zsh
+  - name: Clone dotfiles
+    git:
+      repo: https://github.com/nctiggy/dotfiles.git
+      dest: $HOME/.myconf
+      bare: yes
+  - name: Checkout the dotfiles
+    command: /usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME checkout
+  - name: Turn of untracked files
+    command: /usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME config status.showUntrackedFiles no
