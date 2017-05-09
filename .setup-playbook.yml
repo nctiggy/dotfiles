@@ -57,3 +57,19 @@
     command: /usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME checkout
   - name: Turn of untracked files
     command: /usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME config status.showUntrackedFiles no
+  - name: Get Dracula ZSH theme
+    git:
+      repo:  https://github.com/dracula/zsh.git
+      dest: $HOME/.dracula-zsh
+  - name: Update all ZSH submodules
+    command: git submodule update --recursive --remote
+    args:
+      chdir: $HOME/.oh-my-zsh
+  - name: clone my vim files
+    git:
+      repo: https://github.com/nctiggy/vim-repo.git
+      dest: $HOME/.vim
+  - name: Update all vim submodules
+    command: git submodule update --recursive --remote
+    args:
+      chdir: $HOME/.vim
