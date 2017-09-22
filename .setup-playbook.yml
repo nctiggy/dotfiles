@@ -88,3 +88,8 @@
     git:
       repo: https://github.com/dracula/terminal.app.git
       dest: $HOME/Sites/dracula-terminal-theme
+  - name: install dropbox
+    homebrew_cask:
+      name: dropbox
+    when: ansible_os_family == "Darwin"
+
