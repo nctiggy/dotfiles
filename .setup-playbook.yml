@@ -25,7 +25,6 @@
       - rbenv
       - tmux
       - nmap
-    become: yes
   - name: Install OSX specific packages
     package: name={{item}} state=installed
     with_items:
