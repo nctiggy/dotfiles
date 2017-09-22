@@ -82,3 +82,9 @@
     command: git submodule update --recursive --remote
     args:
       chdir: $HOME/.vim
+  - name: create Sites directory
+    file: path=$HOME/Sites state=directory
+  - name: clone dracula terminal theme to Sites dir
+    git:
+      repo: https://github.com/dracula/terminal.app.git
+      dest: $HOME/Sites/dracula-terminal-theme
