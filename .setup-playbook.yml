@@ -11,9 +11,15 @@
     homebrew_tap:
       name: caskroom/cask
     when: ansible_os_family == "Darwin"
-  - name: install keycastr
-    homebrew_cask:
-      name: keycastr
+  - name: install cask apps
+    homebrew_cask: name={{item}} state=present
+    with_items:
+      - keycastr
+      - slack
+      - virtualbox
+      - dropbox
+      - google-chrome
+      - docker
     when: ansible_os_family == "Darwin"
   - name: Install core packages
     package: name={{item}} state=installed
@@ -25,12 +31,15 @@
       - rbenv
       - tmux
       - nmap
+      - make
   - name: Install OSX specific packages
     package: name={{item}} state=installed
     with_items:
       - macvim
       - cloudfoundry/tap/cf-cli
       - terraform
+      - packer
+      - docker-compose
     when: ansible_os_family == "Darwin"
   - name: Add Ubuntu keys
     apt_key:
@@ -87,8 +96,3 @@
     git:
       repo: https://github.com/dracula/terminal.app.git
       dest: $HOME/Sites/dracula-terminal-theme
-  - name: install dropbox
-    homebrew_cask:
-      name: dropbox
-    when: ansible_os_family == "Darwin"
-
