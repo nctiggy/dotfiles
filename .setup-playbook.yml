@@ -32,6 +32,8 @@
       - tmux
       - nmap
       - make
+      - gcc
+      - python3
   - name: Install OSX specific packages
     package: name={{item}} state=installed
     with_items:
