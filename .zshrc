@@ -87,3 +87,4 @@ alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
 #
 eval "$(rbenv init -)"
 export EDITOR='vim'
+export PATH="/usr/local/opt/curl/bin:$PATH"
