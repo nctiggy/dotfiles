@@ -22,6 +22,9 @@
       - virtualbox
       - dropbox
       - google-chrome
+      - firefox
+      - postman
+      - vlc
     when: ansible_os_family == "Darwin"
   - name: Install core packages
     package: name={{item}} state=installed
