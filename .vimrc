@@ -100,6 +100,7 @@ nmap <leader>nt :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.pyc$','^\.DS_Store$']
 " match the keyboard bindings of CtrlP
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 autocmd FileType nerdtree nmap <buffer> <C-v> s
 autocmd FileType nerdtree nmap <buffer> <C-x> i
 
